@@ -1,0 +1,76 @@
+package config
+
+//
+//import (
+//	"path/filepath"
+//	"sync"
+//)
+//import "github.com/go-ini/ini"
+//
+//var (
+//	utilsConfig  defaultLogToolConfig
+//	redisConfig  defaultRedisConfig
+//	minioConfig  defaultMinioConfig
+//	mgoConfig    defaultMgoConfig
+//	serverConfig defaultServerConfig
+//	mysqlConfig  MysqlConfig
+//
+//	m sync.Mutex
+//)
+//
+//func Init(path string) {
+//	var (
+//		err error
+//		cfg *ini.File
+//	)
+//
+//	m.Lock()
+//	defer m.Unlock()
+//	dbConfigFilePath := filepath.Join(path, "db.yml")
+//	toolConfigFilePath := filepath.Join(path, "tool.yml")
+//	if cfg, err = ini.Load(dbConfigFilePath); err != nil {
+//		panic(err)
+//	}
+//	if err = cfg.Section("redis").MapTo(&redisConfig); err != nil {
+//		panic(err)
+//	}
+//	if err = cfg.Section("mysql").MapTo(&mysqlConfig); err != nil {
+//		panic(err)
+//	}
+//	if err = cfg.Section("mongodb").MapTo(&mgoConfig); err != nil {
+//		panic(err)
+//	}
+//
+//	if cfg, err = ini.Load(toolConfigFilePath); err != nil {
+//		panic(err)
+//	}
+//	if err = cfg.Section("zap").MapTo(&utilsConfig); err != nil {
+//		panic(err)
+//	}
+//	if err = cfg.Section("server").MapTo(&serverConfig); err != nil {
+//		panic(err)
+//	}
+//}
+//
+//func GetToolLogConfig() (fig toolLogConfig) {
+//	return utilsConfig
+//}
+//
+//func GetRedisConfig() (fig rdsConfig) {
+//	return redisConfig
+//}
+//
+//func GetMgoConfig() (fig mgConfig) {
+//	return mgoConfig
+//}
+//func GetServerConfig() (fig serversConfig) {
+//	return serverConfig
+//}
+//
+//func GetMinioConfig() (fig minConfig) {
+//	return minioConfig
+//}
+//
+//func GetMysqlConfig() msqlConfig {
+//	return mysqlConfig
+//}

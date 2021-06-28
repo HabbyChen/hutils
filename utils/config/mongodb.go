@@ -7,9 +7,9 @@ type mgConfig interface {
 }
 
 type defaultMgoConfig struct {
-	Url  string `ini:"url"`
-	Name string `ini:"name"`
-	Pass string `ini:"pass"`
+	Url  string `yml:"url"`
+	Name string `yml:"name"`
+	Pass string `yml:"pass"`
 }
 
 func (m defaultMgoConfig) GetUrl() string {

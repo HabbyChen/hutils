@@ -11,13 +11,13 @@ type toolLogConfig interface {
 }
 
 type defaultLogToolConfig struct {
-	Development string `ini:"development"`
-	LogFileDir  string `ini:"logFileDir"`
-	AppName     string `ini:"appName"`
-	MaxSize     int    `ini:"maxSize"`
-	MaxBackups  int    `ini:"maxBackups"`
-	MaxAge      int    `ini:"maxAge"`
-	Dc          int64  `ini:"dc"`
+	Development string `yml:"development"`
+	LogFileDir  string `yml:"logFileDir"`
+	AppName     string `yml:"appName"`
+	MaxSize     int    `yml:"maxSize"`
+	MaxBackups  int    `yml:"maxBackups"`
+	MaxAge      int    `yml:"maxAge"`
+	Dc          int64  `yml:"dc"`
 }
 
 func (m defaultLogToolConfig) GetDevelopment() bool {

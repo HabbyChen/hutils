@@ -7,9 +7,9 @@ type serversConfig interface {
 }
 
 type defaultServerConfig struct {
-	Etcd string `ini:"etcd"`
-	Name string `ini:"name"`
-	Addr string `ini:"addr"`
+	Etcd string `yml:"etcd"`
+	Name string `yml:"name"`
+	Addr string `yml:"addr"`
 }
 
 func (m defaultServerConfig) GetEtcd() string {

@@ -8,8 +8,8 @@ import (
 )
 
 var (
-	err         error
-	redisDb     *redis.Client
+	err     error
+	redisDb *redis.Client
 	//minioClient *minio.Client
 	mgo         *mongo.Client
 	mysqlEngine *xorm.Engine

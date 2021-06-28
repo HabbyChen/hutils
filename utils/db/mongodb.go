@@ -4,13 +4,13 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"kitutils/base/config"
-	"kitutils/base/tool"
+	"kitutils/utils/config"
+	"kitutils/utils/tool"
 	"time"
 )
 
 func initMongoDb() {
-	if len(config.GetMgoConfig().GetUrl())==0{
+	if len(config.GetMgoConfig().GetUrl()) == 0 {
 		tool.NewLogger().Warn("None Mongo Init")
 		return
 	}

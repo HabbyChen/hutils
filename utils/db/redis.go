@@ -4,13 +4,13 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"go.uber.org/zap"
-	"kitutils/base/config"
-	"kitutils/base/tool"
+	"kitutils/utils/config"
+	"kitutils/utils/tool"
 	"time"
 )
 
 func initRedis() {
-	if len(config.GetRedisConfig().GetIP())==0{
+	if len(config.GetRedisConfig().GetIP()) == 0 {
 		tool.NewLogger().Warn("None Redis Init")
 		return
 	}

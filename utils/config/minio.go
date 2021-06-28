@@ -7,9 +7,9 @@ type minConfig interface {
 }
 
 type defaultMinioConfig struct {
-	Path            string `ini:"path"`
-	AccessKeyId     string `ini:"access_key_id"`
-	SecretAccessKey string `ini:"secret_access_key"`
+	Path            string `yml:"path"`
+	AccessKeyId     string `yml:"access_key_id"`
+	SecretAccessKey string `yml:"secret_access_key"`
 }
 
 func (m defaultMinioConfig) GetPath() string {

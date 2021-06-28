@@ -8,10 +8,10 @@ type rdsConfig interface {
 }
 
 type defaultRedisConfig struct {
-	IP      string `ini:"ip"`
-	Port    string `ini:"port"`
-	Pass    string `ini:"pass"`
-	MaxOpen int    `ini:"max_open"`
+	IP      string `yml:"ip"`
+	Port    string `yml:"port"`
+	Pass    string `yml:"pass"`
+	MaxOpen int    `yml:"max_open"`
 }
 
 func (m defaultRedisConfig) GetIP() string {
