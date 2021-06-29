@@ -8,5 +8,5 @@ import (
 
 func main() {
 	str, _ := os.Getwd()
-	utils.InitNeed(path.Join(str, "yml"))
+	utils.Init(path.Join(str, "yml"))
 }

@@ -1,76 +1,49 @@
 package config
 
-//
-//import (
-//	"path/filepath"
-//	"sync"
-//)
-//import "github.com/go-ini/ini"
-//
-//var (
-//	utilsConfig  defaultLogToolConfig
-//	redisConfig  defaultRedisConfig
-//	minioConfig  defaultMinioConfig
-//	mgoConfig    defaultMgoConfig
-//	serverConfig defaultServerConfig
-//	mysqlConfig  MysqlConfig
-//
-//	m sync.Mutex
-//)
-//
-//func Init(path string) {
-//	var (
-//		err error
-//		cfg *ini.File
-//	)
-//
-//	m.Lock()
-//	defer m.Unlock()
-//	dbConfigFilePath := filepath.Join(path, "db.yml")
-//	toolConfigFilePath := filepath.Join(path, "tool.yml")
-//	if cfg, err = ini.Load(dbConfigFilePath); err != nil {
-//		panic(err)
-//	}
-//	if err = cfg.Section("redis").MapTo(&redisConfig); err != nil {
-//		panic(err)
-//	}
-//	if err = cfg.Section("mysql").MapTo(&mysqlConfig); err != nil {
-//		panic(err)
-//	}
-//	if err = cfg.Section("mongodb").MapTo(&mgoConfig); err != nil {
-//		panic(err)
-//	}
-//
-//	if cfg, err = ini.Load(toolConfigFilePath); err != nil {
-//		panic(err)
-//	}
-//	if err = cfg.Section("zap").MapTo(&utilsConfig); err != nil {
-//		panic(err)
-//	}
-//	if err = cfg.Section("server").MapTo(&serverConfig); err != nil {
-//		panic(err)
-//	}
-//}
-//
-//func GetToolLogConfig() (fig toolLogConfig) {
-//	return utilsConfig
-//}
-//
-//func GetRedisConfig() (fig rdsConfig) {
-//	return redisConfig
-//}
-//
-//func GetMgoConfig() (fig mgConfig) {
-//	return mgoConfig
-//}
-//func GetServerConfig() (fig serversConfig) {
-//	return serverConfig
-//}
-//
-//func GetMinioConfig() (fig minConfig) {
-//	return minioConfig
-//}
-//
-//func GetMysqlConfig() msqlConfig {
-//	return mysqlConfig
-//}
+import (
+	"fmt"
+	"gopkg.in/yaml.v2"
+	"io/ioutil"
+	"path/filepath"
+	"sync"
+)
+
+var m sync.Mutex
+
+type Config struct {
+	MysqlConfig []mysqlConfig
+	RedisConfig []redisConfig
+}
+
+//InitNeed 初始化实际需要的
+func InitNeed(path string) {
+	m.Lock()
+	defer m.Unlock()
+	//读取开关配置
+	//开关有2个作用，1是否读取配置文件，2 是否初始化相应的类库
+	var switchConfig Switch
+	fmt.Println(filepath.Join(path, "switch.yaml"))
+	fileContent, err := ioutil.ReadFile(filepath.Join(path, "switch.yaml"))
+	if err != nil {
+		panic(err)
+	}
+	err = yaml.Unmarshal(fileContent, &switchConfig)
+	if err != nil {
+		panic(err)
+	}
+
+	if switchConfig.Mysql == true {
+		var mysqlConfigs []mysqlConfig
+		fileContent, err = ioutil.ReadFile(filepath.Join(path, "mysql.yaml"))
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(fileContent)
+		err = yaml.Unmarshal(fileContent, &mysqlConfigs)
+		for _, mysqlConfig := range mysqlConfigs {
+			fmt.Printf("ip is %v\n", mysqlConfig.Ip)
+		}
+	}
+
+	fmt.Print("123123")
+}
