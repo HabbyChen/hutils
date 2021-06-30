@@ -1,4 +1,4 @@
-module kitutils
+module hutils
 
 go 1.15
 

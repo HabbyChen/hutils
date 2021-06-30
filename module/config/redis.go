@@ -7,7 +7,7 @@ type rdsConfig interface {
 	GetMaxOpen() int
 }
 
-type redisConfig struct {
+type RedisConfig struct {
 	IP      string `yml:"ip"`
 	Port    string `yml:"port"`
 	Pass    string `yml:"pass"`

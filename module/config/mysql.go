@@ -9,7 +9,7 @@ type msqlConfig interface {
 	GetPoolSize() int
 }
 
-type mysqlConfig struct {
+type MysqlConfig struct {
 	Ip string `yml:"ip"`
 	//Port     int    `yml:"port"`
 	//User     string `yml:"user"`

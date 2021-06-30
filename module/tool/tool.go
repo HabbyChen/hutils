@@ -1,7 +1,7 @@
 package tool
 
 import (
-	"kitutils/utils/config"
+	"kitutils/module/config"
 	"sync"
 )
 

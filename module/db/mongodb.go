@@ -4,8 +4,8 @@ import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"kitutils/utils/config"
-	"kitutils/utils/tool"
+	"kitutils/module/config"
+	"kitutils/module/tool"
 	"time"
 )
 

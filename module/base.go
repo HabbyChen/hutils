@@ -1,4 +1,4 @@
-package utils
+package module
 
 //配置文件的目录
 //func Init(path string) {

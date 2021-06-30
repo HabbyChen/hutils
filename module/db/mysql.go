@@ -2,16 +2,17 @@ package db
 
 import (
 	"fmt"
+	"hutils/module/config"
+	"hutils/module/tool"
+	"os"
+
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/go-xorm/xorm"
 	"go.uber.org/zap"
-	"kitutils/utils/config"
-	"kitutils/utils/tool"
-	"os"
 )
 
 //mysql连接池
-func initMysql() {
+func initMysql(mysqlConfig config.ZapLogConfig) {
 	if len(config.GetMysqlConfig().GetIp()) == 0 {
 		tool.NewLogger().Warn("None Mysql Init")
 		return

@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"github.com/go-redis/redis"
 	"go.uber.org/zap"
-	"kitutils/utils/config"
-	"kitutils/utils/tool"
+	"kitutils/module/config"
+	"kitutils/module/tool"
 	"time"
 )
 

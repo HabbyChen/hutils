@@ -1,7 +1,0 @@
-# 因为我们有太多的组件了，这里的开关呢统一来控制哪些开启哪些不开启
-# 是否开启log
-log: True
-# 是否开启mysql
-mysql: True
-# 是狗开启nacos
-nacos: True
