@@ -2,7 +2,6 @@ package hutils
 
 import (
 	moduleConfig "hutils/module/config"
-	"hutils/module/log"
 
 	"go.uber.org/zap"
 )
@@ -21,7 +20,7 @@ func Init(path string) {
 	config.Need(path)
 	//初始化日志
 
-	zapLog = log.InitLogger()
+	//zapLog = log.InitLogger()
 }
 
 //Config 获取配置
