@@ -1,34 +1,29 @@
 package hutils
 
 import (
+	"hutils/boot"
 	moduleConfig "hutils/module/config"
-
-	"go.uber.org/zap"
+	"hutils/module/db"
+	utilsLog "hutils/module/log"
+	"sync"
 )
 
 var (
-	//Config 配置
-	config *moduleConfig.Config
-	//日志
-	zapLog *zap.SugaredLogger
+	m sync.Mutex
 )
 
 //Init 初始化
 func Init(path string) {
+
+	m.Lock()
+	defer m.Unlock()
+
 	//初始化配置
-	config = moduleConfig.Init()
-	config.Need(path)
+	config := moduleConfig.Init()
+	config.Init(path)
 	//初始化日志
-
-	//zapLog = log.InitLogger()
-}
-
-//Config 获取配置
-func Config() *moduleConfig.Config {
-	return config
-}
-
-//Log 获取日志
-func Log() *zap.SugaredLogger {
-	return zapLog
+	boot.Log = utilsLog.InitLogger(config.GetLogConfig().ZapLog)
+	//初始化数据库
+	boot.Mysql = db.InitMysql(config.GetMysqlConfig())
+	config.GetAppConfig()
 }

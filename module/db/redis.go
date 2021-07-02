@@ -1,5 +1,6 @@
 package db
 
+/*
 import (
 	"fmt"
 	"github.com/go-redis/redis"
@@ -37,4 +38,4 @@ func closeRedis() {
 	if redisDb != nil {
 		_ = redisDb.Close()
 	}
-}
+}*/

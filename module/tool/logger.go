@@ -1,13 +1,14 @@
 package tool
 
 import (
-	"github.com/natefinch/lumberjack"
-	"go.uber.org/zap"
-	"go.uber.org/zap/zapcore"
 	"os"
 	"path/filepath"
 	"sync"
 	"time"
+
+	"github.com/natefinch/lumberjack"
+	"go.uber.org/zap"
+	"go.uber.org/zap/zapcore"
 )
 
 type Options struct {
@@ -54,10 +55,10 @@ func NewLogger(mod ...ModOptions) *zap.Logger {
 	l.Opts = &Options{
 		LogFileDir:    "",
 		AppName:       "app_log",
-		ErrorFileName: "error.log",
-		WarnFileName:  "warn.log",
-		InfoFileName:  "info.log",
-		DebugFileName: "debug.log",
+		ErrorFileName: "error.log.yaml",
+		WarnFileName:  "warn.log.yaml",
+		InfoFileName:  "info.log.yaml",
+		DebugFileName: "debug.log.yaml",
 		Level:         zapcore.DebugLevel,
 		MaxSize:       100,
 		MaxBackups:    60,
