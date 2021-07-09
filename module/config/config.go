@@ -1,6 +1,7 @@
 package config
 
 import (
+	"hutils/boot/interfaces/config"
 	"io/ioutil"
 	"path/filepath"
 
@@ -8,39 +9,40 @@ import (
 )
 
 type Config struct {
-	logConfig   LogConfig
-	mysqlConfig []MysqlConfig
-	appConfig   ServiceConfig
+	logConfig     config.LogConfig
+	mysqlConfig   []config.MysqlConfig
+	serviceConfig config.ServiceConfig
 }
 
 func Init() *Config {
 	return &Config{}
 }
 
-func (config Config) GetLogConfig() LogConfig {
+func (config Config) GetLogConfig() config.LogConfig {
 	return config.logConfig
 }
-func (config Config) GetMysqlConfig() []MysqlConfig {
+func (config Config) GetMysqlConfig() []config.MysqlConfig {
 	return config.mysqlConfig
 }
-func (config Config) GetAppConfig() ServiceConfig {
-	return config.appConfig
+func (config Config) GetServiceConfig() config.ServiceConfig {
+	return config.serviceConfig
 }
 
-//Need 初始化实际需要的
+//Init 初始化实际需要的
 func (config *Config) Init(path string) {
 
-	//初始化app基础配置
-	fileContent, err := ioutil.ReadFile(filepath.Join(path, "service.yml"))
+	//初始化service基础配置
+	fileContent, err := ioutil.ReadFile(filepath.Join(path, "yml/service.yml"))
 	if err != nil {
 		panic(err)
 	}
-	err = yaml.Unmarshal(fileContent, &config.appConfig)
+	err = yaml.Unmarshal(fileContent, &config.serviceConfig)
 	if err != nil {
 		panic(err)
 	}
+
 	//读取log配置
-	fileContent, err = ioutil.ReadFile(filepath.Join(path, "log.yaml"))
+	fileContent, err = ioutil.ReadFile(filepath.Join(path, "yml/log.yaml"))
 	if err != nil {
 		panic(err)
 	}
@@ -50,7 +52,7 @@ func (config *Config) Init(path string) {
 	}
 
 	//读取mysql配置
-	fileContent, err = ioutil.ReadFile(filepath.Join(path, "mysql.yaml"))
+	fileContent, err = ioutil.ReadFile(filepath.Join(path, "yml/mysql.yaml"))
 	if err != nil {
 		panic(err)
 	}

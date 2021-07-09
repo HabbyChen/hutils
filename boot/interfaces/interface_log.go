@@ -1,6 +1,7 @@
 package interfaces
 
 type (
+	//LoggerInterface 日志需要实现的
 	LoggerInterface interface {
 		Errorf(format string, args ...interface{})
 		Fatalf(format string, args ...interface{})

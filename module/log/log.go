@@ -1,7 +1,7 @@
 package log
 
 import (
-	"hutils/module/config"
+	config2 "hutils/boot/interfaces/config"
 	"os"
 	"path/filepath"
 
@@ -11,7 +11,7 @@ import (
 )
 
 //InitLogger 初始化日志
-func InitLogger(logConfig config.ZapLogConfig) *zap.SugaredLogger {
+func InitLogger(logConfig config2.ZapLogConfig) *zap.SugaredLogger {
 	encoder := getEncoder()
 
 	//两个interface,判断日志等级

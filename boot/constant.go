@@ -12,3 +12,5 @@ var Pgsql interfaces.DbInterface
 
 //Log 日志的相关实现
 var Log interfaces.LoggerInterface
+
+var Config interfaces.ConfigInterface

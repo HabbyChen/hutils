@@ -2,14 +2,14 @@ package db
 
 import (
 	"fmt"
-	moduleConfig "hutils/module/config"
+	"hutils/boot"
+	"hutils/boot/interfaces/config"
 	"time"
 
 	"gorm.io/gorm/logger"
 
 	"gorm.io/driver/mysql"
 
-	_ "github.com/go-sql-driver/mysql"
 	//注释1：我觉得好神奇的就是postgres必须依赖这个库才可以跑
 	//但是官方的文档里面又没有
 	_ "github.com/lib/pq"
@@ -18,7 +18,7 @@ import (
 	"gorm.io/gorm"
 )
 
-//DbObj db的相关对象
+//Obj  db的相关对象
 type Obj struct {
 	dbConnections map[string]*gorm.DB
 }
@@ -28,17 +28,17 @@ const (
 	DefaultDb = "default"
 )
 
-//InitDb 初始化数据库
-func InitMysql(configs []moduleConfig.MysqlConfig) *Obj {
+//InitMysql 初始化数据库
+func InitMysql(configs []config.MysqlConfig) *Obj {
 
 	obj := &Obj{}
 	obj.dbConnections = make(map[string]*gorm.DB)
-	for _, config := range configs {
-		connect, err := obj.dbInit(config)
+	for _, mysqlConfig := range configs {
+		connect, err := obj.dbInit(mysqlConfig)
 		if err != nil {
 			panic(err)
 		}
-		obj.dbConnections[config.Name] = connect
+		obj.dbConnections[mysqlConfig.Name] = connect
 	}
 
 	return obj
@@ -72,20 +72,20 @@ func (d Obj) DB() *gorm.DB {
 	return conn
 }
 
-func (d *Obj) dbInit(config moduleConfig.MysqlConfig) (*gorm.DB, error) {
-
+func (d *Obj) dbInit(config config.MysqlConfig) (*gorm.DB, error) {
 	newLogger := &Logger{}
 	newLogger.Config.SlowThreshold = 500 * time.Millisecond
 	newLogger.Config.LogLevel = logger.Info
 
+	dsn := fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local", config.Username,
+		config.Password, config.IP, config.Port, config.Dbname)
 	db, err := gorm.Open(mysql.New(mysql.Config{
-		DSN: "root:1qaz2wsx@tcp(172.31.70.111:3306)/cqkydy?charset=utf8&parseTime=True&loc=Local",
-
-		//DefaultStringSize:         256,   // string 类型字段的默认长度
-		//DisableDatetimePrecision:  true,  // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
-		//DontSupportRenameIndex:    true,  // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
-		//DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
-		//SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
+		DSN:                       dsn,
+		DefaultStringSize:         256,   // string 类型字段的默认长度
+		DisableDatetimePrecision:  true,  // 禁用 datetime 精度，MySQL 5.6 之前的数据库不支持
+		DontSupportRenameIndex:    true,  // 重命名索引时采用删除并新建的方式，MySQL 5.7 之前的数据库和 MariaDB 不支持重命名索引
+		DontSupportRenameColumn:   true,  // 用 `change` 重命名列，MySQL 8 之前的数据库和 MariaDB 不支持重命名列
+		SkipInitializeWithVersion: false, // 根据当前 MySQL 版本自动配置
 	}), &gorm.Config{Logger: newLogger})
 	if err != nil {
 		panic(err)
@@ -94,14 +94,20 @@ func (d *Obj) dbInit(config moduleConfig.MysqlConfig) (*gorm.DB, error) {
 	if err != nil {
 		panic(err)
 	}
+	boot.Log.Infof("mysql 初始化完成 %s", fmt.Sprintf("%s:****@tcp(%s:%s)/%s?charset=utf8&parseTime=True&loc=Local",
+		config.Username,
+		config.IP,
+		config.Port,
+		config.Dbname))
+
 	// SetMaxIdleConns 设置空闲连接池中连接的最大数量
-	sqlDB.SetMaxIdleConns(10)
+	sqlDB.SetMaxIdleConns(config.MaxIdleConn)
 
 	// SetMaxOpenConns 设置打开数据库连接的最大数量。
-	sqlDB.SetMaxOpenConns(100)
+	sqlDB.SetMaxOpenConns(config.MaxOpenConns)
 
 	// SetConnMaxLifetime 设置了连接可复用的最大时间。
-	sqlDB.SetConnMaxLifetime(time.Hour)
+	sqlDB.SetConnMaxLifetime(time.Duration(config.ConnMaxLifetime) * time.Minute)
 
 	return db, nil
 	////因为涉及到要使用连接池
